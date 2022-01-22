@@ -1,0 +1,273 @@
+Q1. [CO4] Use pointer to delete all occurrences of a given character in the string. The program
+should output the corrected string with no holes.
+
+#include <stdio.h>
+#include <string.h>
+#define MAX_SIZE 100 // Maximum string size
+
+/** Function declaration */
+void removeAll(char *, const char);
+
+
+int main()
+{
+    char str[MAX_SIZE];
+    char toRemove;
+
+    printf("Enter any string: ");
+    gets(str);
+
+    printf("Enter character to remove from string: ");
+    toRemove = getchar();
+
+    removeAll(str, toRemove);
+
+    printf("String after removing '%c': %s", toRemove, str);
+
+    return 0;
+}
+
+
+/**
+ * Function to remove all occurrences of a character from the string.
+ */
+void removeAll(char * str, const char toRemove)
+{
+    int i, j;
+    int len = strlen(str);
+
+    for(i=0; i<len; i++)
+    {
+        /*
+         * If the character to remove is found then shift all characters to one
+         * place left and decrement the length of string by 1.
+         */
+        if(str[i] == toRemove)
+        {
+            for(j=i; j<len; j++)
+            {
+                str[j] = str[j+1];
+            }
+
+            len--;
+
+            // If a character is removed then make sure i doesn't increments
+            i--;
+        }
+    }
+}
+
+O/P
+Enter any string: I Love Programming. 
+Enter character to remove from string: I
+
+String after removing 'I': Love Programming. 
+
+Q2. [CO4] Write a program to compute the LCM of ’n’ user input numbers.
+
+#include <stdio.h>
+int findGCD(int, int);
+
+int main() {
+    int array[] = {8, 4, 2, 16};
+    int lcm = array[0];;
+    int  gcd = array[0];
+ 
+    //Loop through the array and find GCD
+    //use GCD to find the LCM
+    for(int i=1; i<4; i++){
+      gcd = findGCD(array[i], lcm);
+      lcm = (lcm*array[i])/gcd;
+    }
+    
+    printf("LCM: %d", lcm);
+}
+
+//Function returns GCD of a and b
+int findGCD(int a, int b){
+    if(b==0)
+        return a;
+    return findGCD(b, a%b);
+}
+
+O/P LCM: 16
+
+Q3. [CO4] What will be the output of the program?
+a). int main()
+{
+int i=3, *j, k;
+j = &i;
+printf("%d\n", i**j*i+*j);
+return 0;
+}
+
+O/P = 30
+
+b) #include <stdio.h>
+int main()
+{
+int x=30, *y, *z;
+y=&x; /* Assume address of x is 500 and
+integer is 4 byte size */
+z=y;
+*y++=*z++;
+x++;
+printf("x=%d, y=%d, z=%d\n", x, y, z);
+return 0;
+}
+
+x=31, y==504, z=504
+c) #include <stdio.h>
+int main()
+{
+char str[20] = "Hello";
+char *const p=str;
+*p='M';
+printf("%s\n", str);
+return 0;
+}
+
+O/P: Mello
+d) 
+#include <stdio.h>
+int main()
+{
+int ***r, **q, *p, i=8;
+p = &i;
+q = &p;
+r = &q;
+printf("%d, %d, %d\n", *p, **q, ***r);
+return 0;
+}
+O/P 8,8,8
+e) int main()
+{
+char *str;
+str = "%s";
+printf(str, "K\n");
+return 0;
+}
+O/P :K 
+f) #include <stdio.h>
+int main()
+{
+printf("%d, %d\n", sizeof(NULL), sizeof(""));
+return 0;
+}
+
+O/P 8, 1
+
+g) #include <stdio.h>
+int main()
+{
+void *vp;
+char ch=74, *cp="JACK";
+int j=65;
+vp=&ch;
+printf("%c", *(char*)vp);
+vp=&j;
+printf("%c", *(int*)vp);
+vp=cp;
+printf("%s", (char*)vp+2);
+return 0;
+}
+
+O/P JACK
+
+h) #include <stdio.h>
+int main()
+{
+int arr[2][2][2] = {10, 2, 3, 4, 5, 6, 7, 8};
+int *p, *q;
+p = &arr[1][1][1];
+q = (int*) arr;
+printf("%d, %d\n", *p, *q);
+return 0;
+}
+
+O/P : 8,10
+i) #include <stdio.h>
+int main()
+{
+int a[3][4] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12 };
+printf("%u, %u, %u\n", a[0]+1, *(a[0]+1),*(*(a+0)+1));
+return 0;
+}
+//array begins at the location 1002
+O/P 1006, 2, 2
+j) #include <stdio.h>
+int main()
+{
+int arr[3] = {2, 3, 4};
+char *p;
+p = arr;
+p = (char*)((int*)(p));
+printf("%d, ",  *p);
+p = (int*)(p+1);
+printf("%d", *p);
+return 0;
+}
+O/P: 2,0
+k) #include <stdio.h>
+ int main()
+{
+char *str;
+str = "%d\n";
+str++;
+str++;
+printf(str-2, 300);
+return 0;
+}
+O/P 300
+l) #include <stdio.h>
+int main()
+{
+char str[] = "peace";
+char *s = str;
+printf("%s\n", s++ +3);
+return 0; }
+O/P : ce
+m) #include <stdio.h>
+int main()
+{
+char *p;
+p="hello";
+printf("%s\n", *&*&p);
+return 0;
+}
+O/P: hello
+n) #include <stdio.h>
+int main()
+{
+char *p;
+p="hello";
+printf("%s\n", *&*&p);
+return 0;
+}
+//the array begins at location 1002 
+O/P: hello 
+o) int main()
+{
+char str1[] = &quot;India&quot;;
+char str2[] = &quot;BIX&quot;;
+char *s1 = str1, *s2=str2;
+while(*s1++ = *s2++)
+printf(&quot;%s&quot;, str1);
+printf(&quot;\n&quot;);
+return 0;
+}
+p) #include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+int main()
+{
+int i, n;
+char *x=&quot;Alice&quot;;
+n = strlen(x);
+for(i=0; i&lt;=n; i++)
+{
+printf(&quot;%s &quot;, x);
+x++;
+}
+printf(&quot;\n&quot;, x);
+return 0;
+}
