@@ -1,0 +1,393 @@
+1.[CO5] Write a program in C to create and store information in a text file.
+
+#include <stdio.h>
+#include <stdlib.h>
+  
+int main()
+{
+   char str[1000];
+   FILE *fptr;
+   char fname[20]="test.txt";
+
+    printf("\n\n Create a file (test.txt) and input text :\n");
+	printf("----------------------------------------------\n"); 
+   fptr=fopen(fname,"w");	
+   if(fptr==NULL)
+   {
+      printf(" Error in opening file!");
+      exit(1);
+   }
+   printf(" Input a sentence for the file : ");
+   fgets(str, sizeof str, stdin);
+   fprintf(fptr,"%s",str);
+   fclose(fptr);
+   printf("\n The file %s created successfully...!!\n\n",fname);
+   return 0;
+}
+
+O/P
+ Create a file (test.txt) and input text :                                                                    
+----------------------------------------------                                                                
+ Input a sentence for the file : This is the content of the file test.txt                                     
+                                                                                                              
+ The file test.txt created successfully...!! 
+ 
+ Q2. [CO5] Write a program in C to write multiple lines in a text file.
+ #include <stdio.h>
+
+int main ()
+{
+  FILE * fptr;
+  int i,n;
+  char str[100];
+  char fname[20]="test.txt";
+  char str1;
+  
+    printf("\n\n Write multiple lines in a text file and read the file :\n");
+	printf("------------------------------------------------------------\n");   
+	printf(" Input the number of lines to be written : ");
+	scanf("%d", &n);
+	printf("\n  The lines are \n");
+	fptr = fopen (fname,"w"); 
+	for(i = 0; i < n+1;i++)
+		{
+		fgets(str, sizeof str, stdin);
+		fputs(str, fptr);
+		}
+  fclose (fptr);
+/*-------------- read the file -------------------------------------*/
+	fptr = fopen (fname, "r");  
+	printf("\n The content of the file %s is  :\n",fname);
+	str1 = fgetc(fptr);
+	while (str1 != EOF)
+		{
+			printf ("%c", str1);
+			str1 = fgetc(fptr);
+		}
+    printf("\n\n");
+    fclose (fptr);
+    return 0;
+}
+
+O/P
+Write multiple lines in a text file and read the file :                                                      
+------------------------------------------------------------                                                  
+Input the number of lines to be written : 3
+The lines are
+I am at JIIT.
+Enrolled in SDF1.
+I am in Noida.
+
+Output :
+The content of the file test.txt is :
+I am at JIIT.
+Enrolled in SDF1.
+I am in Noida.
+
+Q3. [CO5] Write a program in C to count a number of words and characters in a file.
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    FILE * file;
+    char path[100];
+
+    char ch;
+    int characters, words, lines;
+
+
+    /* Input path of files to merge to third file */
+    printf("Enter source file path: ");
+    scanf("%s", path);
+
+    /* Open source files in 'r' mode */
+    file = fopen(path, "r");
+
+
+    /* Check if file opened successfully */
+    if (file == NULL)
+    {
+        printf("\nUnable to open file.\n");
+        printf("Please check if file exists and you have read privilege.\n");
+
+        exit(EXIT_FAILURE);
+    }
+
+    /*
+     * Logic to count characters, words and lines.
+     */
+    characters = words = lines = 0;
+    while ((ch = fgetc(file)) != EOF)
+    {
+        characters++;
+
+        /* Check new line */
+        if (ch == '\n' || ch == '\0')
+            lines++;
+
+        /* Check words */
+        if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\0')
+            words++;
+    }
+
+    /* Increment words and lines for last word */
+    if (characters > 0)
+    {
+        words++;
+        lines++;
+    }
+
+    /* Print file statistics */
+    printf("\n");
+    printf("Total characters = %d\n", characters);
+    printf("Total words      = %d\n", words);
+    printf("Total lines      = %d\n", lines);
+
+
+    /* Close files to release resources */
+    fclose(file);
+
+    return 0;
+}
+
+input//
+I love programming.
+Working with files in C programming is fun.
+I am learning C programming at JIITcolleg.
+O/P
+Enter source file path: data\file3.txt
+
+Total characters = 106
+Total words      = 18
+Total lines      = 3
+
+Q4. [CO5]  Write a program in C to merge two files and write it in a new file.
+
+ssume that the content of the file test.txt and test1.txr is :                                                                       
+ The content of the file test.txt is  : 
+This is the file test.txt. 
+
+ The content of the file test1.txt is  : 
+This is the file test1.txt.  
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void main()
+{
+	FILE *fold1, *fold2, *fnew;
+	char ch, fname1[20], fname2[20], fname3[30];
+
+	printf("\n\n Merge two files and write it in a new file :\n");
+	printf("-------------------------------------------------\n"); 	
+	
+	printf(" Input the 1st file name : ");
+	scanf("%s",fname1);
+	printf(" Input the 2nd file name : ");
+	scanf("%s",fname2);
+	printf(" Input the new file name where to merge the above two files : ");
+	scanf("%s",fname3);
+	fold1=fopen(fname1, "r");
+	fold2=fopen(fname2, "r");
+	if(fold1==NULL || fold2==NULL)
+	{
+//		perror("Error Message ");
+		printf(" File does not exist or error in opening...!!\n");
+		exit(EXIT_FAILURE);
+	}
+	fnew=fopen(fname3, "w");
+	if(fnew==NULL)
+	{
+//		perror("Error Message ");
+		printf(" File does not exist or error in opening...!!\n");
+		exit(EXIT_FAILURE);
+	}
+	while((ch=fgetc(fold1))!=EOF)
+	{
+		fputc(ch, fnew);
+	}
+	while((ch=fgetc(fold2))!=EOF)
+	{
+		fputc(ch, fnew);
+	}
+	printf(" The two files merged into %s file successfully..!!\n\n", fname3);
+	fclose(fold1);
+	fclose(fold2);
+	fclose(fnew);
+}
+O/P:
+ Merge two files and write it in a new file :                                                                 
+-------------------------------------------------                                                             
+ Input the 1st file name : test.txt                                                                           
+ Input the 2nd file name : test1.txt                                                                          
+ Input the new file name where to merge the above two files : mergefiles.txt                                  
+ The two files merged into mergefiles.txt file successfully..!!
+
+
+Q5. [CO5]  Convert All Characters in Upper Case of a File using C Program
+
+/*C - Convert All Characters in Uppercase 
+of a File using C Program.*/
+ 
+ 
+#include <stdio.h>
+#include <ctype.h>
+ 
+int main(){
+ 
+    //file nane
+    const char *fileName="sample.txt";
+    //file pointers
+    FILE *fp,*fp1;
+    //to store read character
+    char ch;
+     
+    //open file in read mode
+    fp=fopen(fileName,"r");
+    if(fp==NULL){
+        printf("Error in opening file.\n");
+        return -1;
+    }
+    //create temp file
+    fp1=fopen("temp.txt","w");
+    if(fp1==NULL){
+        printf("Error in creating temp file.\n");
+        return -1;
+    }   
+    //read file from one file and copy
+    //into another in uppercase
+    while((ch=fgetc(fp))!=EOF){
+        if(islower(ch)){
+            ch=ch-32;
+        }
+        //write character into temp file
+        putc(ch,fp1);                   
+    }
+    fclose(fp);
+    fclose(fp1);
+    //rename temp file to sample.txt
+    rename("temp.txt","sample.txt");
+    //remove temp file
+    remove("temp.txt");
+     
+    //now, print content of the file
+    //open file in read mode
+    fp=fopen(fileName,"r");
+    if(fp==NULL){
+        printf("Error in opening file.\n");
+        return -1;
+    }
+    printf("Content of file\n");
+    while((ch=getc(fp))!=EOF){
+        printf("%c",ch);
+    }
+    printf("\n");
+    fclose(fp);
+    return 0;
+}
+
+O/P:
+Content of file 
+    THIS IS SAMPLE.TXT FILE DOCUMENT.
+    
+  Q6. [CO5]  Write a program to print reverse content of file. [using command line arguments].
+
+Actual file contents:
+This is line1.
+This is line2.
+This is line3.
+This is line4.
+This is line5.
+This is line6.
+
+ANSWER:
+//Write a program to print reverse content of file
+#include <stdio.h>
+#include <string.h>
+ 
+int main(int argc, char *argv[])
+{
+    FILE *fp1;
+     
+    int cnt = 0;
+    int i   = 0;
+     
+    if( argc < 2 )
+    {
+        printf("Insufficient Arguments!!!\n");
+        printf("Please use \"program-name file-name\" format.\n");
+        return -1;
+    }
+     
+    fp1 = fopen(argv[1],"r");
+    if( fp1 == NULL )
+    {
+        printf("\n%s File can not be opened : \n",argv[1]);
+        return -1;
+    }
+     
+    //moves the file pointer to the end.
+    fseek(fp1,0,SEEK_END);
+    //get the position of file pointer.
+    cnt = ftell(fp1);
+     
+    while( i < cnt )
+    {
+        i++;
+        fseek(fp1,-i,SEEK_END);
+        printf("%c",fgetc(fp1));
+    }
+    printf("\n");
+    fclose(fp1);
+     
+    return 0;
+}
+
+O/P: 
+Terminal command: ./prg2 file1.txt
+.6enil si sihT
+.5enil si sihT
+.4enil si sihT
+.3enil si sihT
+.2enil si sihT
+.1enil si sihT
+
+Q7. Point out the error/warning in the program if any?
+#include&lt;stdio.h&gt;
+int main()
+{
+unsigned char ch;
+FILE *fp;
+fp=fopen(&quot;trial&quot;, &quot;r&quot;);
+while((ch = getc(fp))!=EOF)
+printf(&quot;%c&quot;, ch);
+fclose(fp);
+return 0;
+}
+
+Error: in unsigned char declaration 
+
+Q8. Write to a binary file using fwrite() using following structure:
+struct threeNum { int n1, n2, n3; };.
+
+#include <stdio.h>
+struct threeNum{
+ int n1, n2, n3;
+};
+void main(){
+ int n;
+ struct threeNum num;
+ FILE *fptr;
+ if ((fptr = fopen("C:\\program.bin","wb")) == NULL){
+ printf("Error! opening file"); // Program exits if the file pointer returns NULL.
+ exit(1);
+ }
+ for(n = 1; n < 5; ++n) {
+ num.n1 = n;
+ num.n2 = 5n;
+ num.n3 = 5n + 1;
+ fwrite(&num, sizeof(struct threeNum), 1, *fptr); 
+ }
+ fclose(fptr); 
+}
