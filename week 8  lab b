@@ -1,0 +1,19 @@
+1. #include <stdio.h>
+ union Student 
+{
+   //defining a union
+   char name[33];
+   long roll_number;
+   short age;
+} uJob;
+
+
+
+int main()
+{
+   printf("size of union = %ld bytes", sizeof(uJob));
+   return 0;
+}
+
+O/P size of union = 40 bytes
+
