@@ -248,26 +248,29 @@ return 0;
 O/P: hello 
 o) int main()
 {
-char str1[] = &quot;India&quot;;
-char str2[] = &quot;BIX&quot;;
+char str1[] = "India";
+char str2[] = "BIX";
 char *s1 = str1, *s2=str2;
 while(*s1++ = *s2++)
-printf(&quot;%s&quot;, str1);
-printf(&quot;\n&quot;);
+printf("%s", str1);
+printf("\n");
 return 0;
 }
-p) #include&lt;stdio.h&gt;
-#include&lt;string.h&gt;
+O/P : BndiaBIdiaBIXia
+p) #include<stdio.h>;
+#include<string.h>;
 int main()
 {
 int i, n;
-char *x=&quot;Alice&quot;;
+char *x="Alice";
 n = strlen(x);
-for(i=0; i&lt;=n; i++)
+for(i=0; i<=n; i++)
 {
-printf(&quot;%s &quot;, x);
+printf("%s ", x);
 x++;
 }
-printf(&quot;\n&quot;, x);
+printf("\n", x);
 return 0;
 }
+
+O/P: Alice lice ice ce e 
